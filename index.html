@@ -1,9 +1,135 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html> 
+<html> 
+
 <head>
-   <meta name="apple-mobile-web-app-capable" content="yes"/>
-</head>
-<body>
-Hey dude
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1"> 
+   <title>Math Facts</title> 
+   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.css" />
+   <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+   <script src="http://code.jquery.com/mobile/1.0rc1/jquery.mobile-1.0rc1.min.js"></script>
+   <script type="text/javascript" src="./jquery.random.js"></script>
+</head> 
+
+   
+<body> 
+
+<script language="javascript">
+   var correctAnswers = 0;
+
+   $(document).ready(function(){
+        $("#mainscreen").fadeIn("slow"); 
+      });
+
+   function go(){
+      $("#mainscreen").fadeOut("slow",seed);
+   }
+   function seed(){
+      //Pick 2 random numbers between 1 - 15
+      var first = $.randomBetween(0, 15);
+      var second = $.randomBetween(0, 15);
+      $("#firstNumber").html(first); 
+      $("#secondNumber").html(second); 
+      $("#answer").html(first+second);
+      $("#math_screen").fadeIn("slow");
+   }
+
+   function calculate(){
+      $("#math_screen").hide();
+
+      if($("#answer_text").html() == $("#answer").html()){
+         correctAnswers++;
+         $("#result").html("Correct! "+correctAnswers+" in a row!");
+         $("#result").show();
+         
+      } else {
+         $("#result").html("Sorry Wrong Answer, the correct answer was "+$("#answer").html());
+         $("#result").show();
+         correctAnswers =0;
+      }
+      $("#answer_text").html("?");
+      seed();
+   }
+
+   function add_text(newchar){
+      var curVal = $("#answer_text").html();
+      if(curVal == "?"){
+         curVal = '';
+      }
+      $("#answer_text").html(curVal + newchar);
+   }
+
+   function chop_one(){
+      var newval = $("#answer_text").html().slice(0, -1);
+      $("#answer_text").html(newval);
+   }
+
+   $('#play').live('pagecreate',function(event){
+      seed();
+});
+</script>
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="foo">
+
+   <div data-role="header">
+      <h1>Welcome to Math Facts</h1>
+   </div><!-- /header -->
+
+   <div data-role="content" id="one">  
+      
+      <p>Ready to get started?</p>
+      <p><a href="#play" data-role="button">Let's Go!</a></p>   
+   </div><!-- /content -->
+   
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="play" data-theme="a">
+<div id="result" style="display : none; background : lightyellow; border : 1px solid black; font:15px arial; padding : 10px; text-align : center; color:#231f20"></div>
+<div id="math_screen" style="display : none">
+   <center>
+   <table>
+      <tr>
+         <td><h1><div id="firstNumber"></div></h1></td>
+         <td><h1>+</h1></td>
+         <td><h1><div id="secondNumber"></div></h1></td>
+   
+         <td><h1> = </h1></td>
+         <td><h1><div id="answer_text" >?</div></h1></td>
+         </tr></table>
+   <div id="answer" style="display : none"></div>
+   <div data-role="field-contain">
+   </div>
+   <div data-role="controlgroup" data-type="horizontal">
+      <a data-role="button" onClick="javascript:add_text('1');">1</a>
+      <a data-role="button" onClick="javascript:add_text('2');">2</a>
+      <a data-role="button" onClick="javascript:add_text('3');">3</a>
+   </div>
+    <div data-role="controlgroup" data-type="horizontal">
+      <a data-role="button" onClick="javascript:add_text('4');">4</a>
+      <a data-role="button" onClick="javascript:add_text('5');">5</a>
+      <a data-role="button" onClick="javascript:add_text('6');">6</a>
+   </div>  
+   <div data-role="controlgroup" data-type="horizontal">
+      <a data-role="button" onClick="javascript:add_text('7');">7</a>
+      <a data-role="button" onClick="javascript:add_text('8');">8</a>
+      <a data-role="button" onClick="javascript:add_text('9');">9</a>
+   </div>
+   <div data-role="controlgroup" data-type="horizontal">
+      <a data-role="button" onClick="javascript:add_text('0');">0</a>
+      <a data-role="button" onClick="javascript:chop_one();">back</a>
+   </div>
+
+      <fieldset class="ui-grid-a">
+         <div><button type="submit" data-theme="a" onClick="javascript:calculate();">Go</button></div>
+      </fieldset>
+</center>
+</div>
+</div><!-- /page two -->
+
+
 </body>
 </html>
+
